@@ -8,7 +8,7 @@
 #include <queue>
 
 class Threadpool {
-public:
+ public:
   Threadpool(int num = 8) : ctx(std::make_shared<Context>()) {
     for (int i = 0; i < num; ++i) {
       std::thread([=]() {
@@ -31,8 +31,6 @@ public:
 
   Threadpool(const Threadpool &) = delete;
   Threadpool &operator=(const Threadpool &) = delete;
-  Threadpool(Threadpool &&) = delete;
-  Threadpool &operator=(Threadpool &&) = delete;
 
   ~Threadpool() { close(); };
 
@@ -58,7 +56,7 @@ public:
     ctx->cond.notify_all();
   }
 
-private:
+ private:
   struct Context {
     std::queue<std::function<void()>> tasks;
     std::condition_variable cond;

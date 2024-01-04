@@ -5,14 +5,14 @@
 
 class CountDownLatch {
  public:
-  explicit CountDownLatch(int count) : m_cnt(count) {}
+  explicit CountDownLatch(int count) noexcept : m_cnt(count) {}
 
-  void wait() {
+  void wait() noexcept {
     std::unique_lock<std::mutex> lock(m_mtx);
     m_cond.wait(lock, [this] { return m_cnt == 0; });
   }
 
-  void count_down() {
+  void count_down() noexcept {
     std::unique_lock<std::mutex> lock(m_mtx);
     if (m_cnt > 0) {
       --m_cnt;
